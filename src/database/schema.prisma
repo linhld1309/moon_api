@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  username      String
+  email         String
+  movies        Movie[]
+}
+
+model Movie {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  title         String
+  description   String
+  release_date  DateTime
+  genre         Int
+  duration      DateTime
+  thumbnail_url String
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int
+  movie_files   MovieFile[]
+}
+
+model MovieFile {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  file_name   String
+  file_url    String
+  movie       Movie     @relation(fields: [movieId], references: [id])
+  movieId     Int
+}
