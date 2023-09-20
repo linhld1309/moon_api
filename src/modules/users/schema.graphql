@@ -1,33 +1,35 @@
-type Post {
+type User {
   id: ID!
-  title: String!
-  text: String!
-  isPublished: Boolean!
+  userId: String!
+  userName: String!
+  email: String!
+  accountActivated: Boolean!
 }
 
-input NewPost {
-  title: String!
-  text: String!
+input NewUser {
+  userId: String!
+  userName: String!
+  email: String!
 }
 
-input UpdatePost {
+input UpdateUser {
   id: ID!
-  title: String
-  text: String
-  isPublished: Boolean
+  userName: String
+  email: String
+  accountActivated: Boolean
 }
 
 type Query {
-  posts: [Post!]!
-  post(id: ID!): Post
+  users: [User!]!
+  user(id: ID!): User
 }
 
 type Mutation {
-  createPost(input: NewPost!): Post!
-  updatePost(input: UpdatePost!): Post
-  deletePost(id: ID!): Post
+  createUser(input: NewUser!): User!
+  updateUser(input: UpdateUser!): User
+  deleteUser(id: ID!): User
 }
 
 type Subscription {
-  postCreated: Post
+  userCreated: User
 }

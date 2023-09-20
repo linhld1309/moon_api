@@ -7,7 +7,7 @@ import { PrismaService } from '../../database/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async findOne(id: string): Promise<User | null> {
+  async findOne(id: number): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: {
         id,
@@ -38,7 +38,7 @@ export class UsersService {
     });
   }
 
-  async delete(id: string): Promise<User> {
+  async delete(id: number): Promise<User> {
     return this.prisma.user.delete({
       where: {
         id,

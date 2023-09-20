@@ -1,21 +1,22 @@
 import { Resolver, Query, Mutation, Args, Subscription } from '@nestjs/graphql';
+import { User } from './users.model';
 import { UsersService } from './users.service';
-import { User, NewUser, UpdateUser } from 'src/graphql.schema';
 import { PubSub } from 'graphql-subscriptions';
+import { NewUser, UpdateUser } from 'src/graphql.schema';
 
 const pubSub = new PubSub();
 
-@Resolver('User')
+@Resolver(() => User)
 export class UsersResolvers {
   constructor(private readonly userService: UsersService) {}
 
-  @Query('users')
-  async users(): Promise<User[]> {
+  @Query(() => [User])
+  async users() {
     return this.userService.findAll();
   }
 
   @Query('user')
-  async post(@Args('id') args: string): Promise<User> {
+  async post(@Args('id') args: number): Promise<User> {
     return this.userService.findOne(args);
   }
 
@@ -32,7 +33,7 @@ export class UsersResolvers {
   }
 
   @Mutation('deleteUser')
-  async delete(@Args('id') args: string): Promise<User> {
+  async delete(@Args('id') args: number): Promise<User> {
     return this.userService.delete(args);
   }
 
