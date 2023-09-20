@@ -1,33 +1,42 @@
 type User {
-  id: ID!
+  id: Int!
   userId: String!
   userName: String!
+  avatarUrl: String
   email: String!
-  accountActivated: Boolean!
+  accountActivated: Boolean
+  accessRole: String
+  role: String
 }
 
 input NewUser {
   userId: String!
   userName: String!
   email: String!
+  accountActivated: Boolean
+  accessRole: String
+  role: String
 }
 
 input UpdateUser {
-  id: ID!
-  userName: String
-  email: String
+  id: Int!
+  userId: String!
+  userName: String!
+  email: String!
   accountActivated: Boolean
+  accessRole: String
+  role: String
 }
 
 type Query {
   users: [User!]!
-  user(id: ID!): User
+  user(id: Int!): User
 }
 
 type Mutation {
   createUser(input: NewUser!): User!
   updateUser(input: UpdateUser!): User
-  deleteUser(id: ID!): User
+  deleteUser(id: Int!): User
 }
 
 type Subscription {

@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args, Subscription } from '@nestjs/graphql';
-import { User } from './users.model';
+import { User } from 'src/graphql.schema';
 import { UsersService } from './users.service';
 import { PubSub } from 'graphql-subscriptions';
 import { NewUser, UpdateUser } from 'src/graphql.schema';

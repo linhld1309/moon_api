@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { NewUser, UpdateUser } from 'src/graphql.schema';
 import { PrismaService } from '../../database/prisma.service';
 
@@ -7,7 +7,7 @@ import { PrismaService } from '../../database/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async findOne(id: number): Promise<User | null> {
+  async findOne(id: number): Promise<User> {
     return this.prisma.user.findUnique({
       where: {
         id,
