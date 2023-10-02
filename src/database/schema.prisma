@@ -19,7 +19,7 @@ model User {
   movies               Movie[]
   subscriptions        UserSubscriptionPlans[]
 
-  createdAt            DateTime     @default(now())
+  createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
@@ -30,7 +30,7 @@ model AccessRoles {
   description          String?
   users                User[]
 
-  createdAt            DateTime     @default(now())
+  createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
@@ -48,7 +48,7 @@ model Movie {
   actors               MovieActors[]
   genres               MovieGenres[]
 
-  createdAt            DateTime     @default(now())
+  createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
@@ -61,7 +61,7 @@ model Actor {
   dateOfBirth          DateTime
   movies               MovieActors[]
 
-  createdAt            DateTime     @default(now())
+  createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
@@ -72,7 +72,7 @@ model MovieActors {
   actorId              String
   @@id([movieId, actorId])
 
-  createdAt            DateTime     @default(now())
+  createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
@@ -81,7 +81,7 @@ model Genre {
   genreName            String       @unique
   movies               MovieGenres[]
 
-  createdAt            DateTime     @default(now())
+  createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
@@ -92,7 +92,7 @@ model MovieGenres {
   genreName            String
   @@id([movieId, genreName])
 
-  createdAt            DateTime     @default(now())
+  createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
@@ -106,7 +106,7 @@ model Subscriptions {
   timeDurationUnit     String?
   users                UserSubscriptionPlans[]
 
-  createdAt            DateTime     @default(now())
+  createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
@@ -115,9 +115,9 @@ model UserSubscriptionPlans {
   userId               String
   genre                Subscriptions  @relation(fields: [subscriptionId], references: [subscriptionId])
   subscriptionId       String
-  startDate            DateTime?      @default(now())
+  startDate            DateTime?      @default(now()) @db.Timestamptz(6)
   endDate              DateTime?
-  subscriptionStatus   SubscriptionStatus[]      @default(dbgenerated("ACTIVE"))
+  subscriptionStatus   SubscriptionStatus[]
   expired              Boolean        @default(false)
   expiredAt            DateTime?
   canceledAt           DateTime?
@@ -125,7 +125,7 @@ model UserSubscriptionPlans {
   subscriptionAutoRenewal  Boolean    @default(false)
   @@id([userId, subscriptionId])
 
-  createdAt            DateTime       @default(now())
+  createdAt            DateTime       @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime       @updatedAt
 }
 

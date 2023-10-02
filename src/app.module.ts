@@ -9,6 +9,6 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       typePaths: ['./**/*.graphql'],
       installSubscriptionHandlers: true,
     }),
-  ]
+  ],
 })
 export class AppModule {}
