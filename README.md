@@ -34,3 +34,6 @@ $ yarn run test:cov
 $ yarn migrate
 
 $ yarn graphql
+
+$ npx prisma db pull
+$ npx prisma db push

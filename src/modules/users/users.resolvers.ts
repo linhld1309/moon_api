@@ -3,6 +3,7 @@ import { User } from 'src/graphql.schema';
 import { UsersService } from './users.service';
 import { PubSub } from 'graphql-subscriptions';
 import { NewUser, UpdateUser } from 'src/graphql.schema';
+import * as bcrypt from 'bcrypt';
 
 const pubSub = new PubSub();
 
@@ -16,15 +17,16 @@ export class UsersResolvers {
   }
 
   @Query('user')
-  async post(@Args('id') args: number): Promise<User> {
+  async post(@Args('id') args: User[`id`]): Promise<User | null> {
     return this.userService.findOne(args);
   }
 
-  @Mutation('createPost')
+  @Mutation('createUser')
   async create(@Args('input') args: NewUser): Promise<User> {
-    const createdPost = await this.userService.create(args);
-    pubSub.publish('userCreated', { userCreated: createdPost });
-    return createdPost;
+    args.password = await bcrypt.hash(args.password, 10);
+    const createdUser = await this.userService.create(args);
+    pubSub.publish('userCreated', { userCreated: createdUser });
+    return createdUser;
   }
 
   @Mutation('updateUser')
@@ -33,7 +35,7 @@ export class UsersResolvers {
   }
 
   @Mutation('deleteUser')
-  async delete(@Args('id') args: number): Promise<User> {
+  async delete(@Args('id') args: User[`id`]): Promise<User> {
     return this.userService.delete(args);
   }
 

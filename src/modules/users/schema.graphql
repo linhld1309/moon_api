@@ -5,27 +5,29 @@ type User {
   avatarUrl: String
   email: String!
   accountActivated: Boolean
-  accessRole: String
-  role: String
+  role: String!
+  password: String!
 }
 
 input NewUser {
   userId: String!
   userName: String!
+  avatarUrl: String
   email: String!
   accountActivated: Boolean
-  accessRole: String
-  role: String
+  role: String!
+  password: String!
 }
 
 input UpdateUser {
   id: Int!
   userId: String!
   userName: String!
+  avatarUrl: String
   email: String!
   accountActivated: Boolean
-  accessRole: String
-  role: String
+  role: String!
+  password: String!
 }
 
 type Query {
@@ -35,7 +37,7 @@ type Query {
 
 type Mutation {
   createUser(input: NewUser!): User!
-  updateUser(input: UpdateUser!): User
+  updateUser(input: UpdateUser!): User!
   deleteUser(id: Int!): User
 }
 

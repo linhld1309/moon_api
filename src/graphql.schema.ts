@@ -1,3 +1,4 @@
+
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -10,20 +11,22 @@
 export class NewUser {
     userId: string;
     userName: string;
+    avatarUrl?: Nullable<string>;
     email: string;
     accountActivated?: Nullable<boolean>;
-    accessRole?: Nullable<string>;
-    role?: Nullable<string>;
+    role: string;
+    password: string;
 }
 
 export class UpdateUser {
     id: number;
     userId: string;
     userName: string;
+    avatarUrl?: Nullable<string>;
     email: string;
     accountActivated?: Nullable<boolean>;
-    accessRole?: Nullable<string>;
-    role?: Nullable<string>;
+    role: string;
+    password: string;
 }
 
 export class User {
@@ -33,8 +36,8 @@ export class User {
     avatarUrl?: Nullable<string>;
     email: string;
     accountActivated?: Nullable<boolean>;
-    accessRole?: Nullable<string>;
-    role?: Nullable<string>;
+    role: string;
+    password: string;
 }
 
 export abstract class IQuery {
@@ -46,7 +49,7 @@ export abstract class IQuery {
 export abstract class IMutation {
     abstract createUser(input: NewUser): User | Promise<User>;
 
-    abstract updateUser(input: UpdateUser): Nullable<User> | Promise<Nullable<User>>;
+    abstract updateUser(input: UpdateUser): User | Promise<User>;
 
     abstract deleteUser(id: number): Nullable<User> | Promise<Nullable<User>>;
 }

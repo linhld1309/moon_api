@@ -7,15 +7,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// auto generate graphql
+// generator nestgraphql {
+//   provider = "node node_modules/prisma-nestjs-graphql"
+//   output = "../@generated/prisma-nestjs-graphql"
+//   fields_Validator_from = "class-validator"
+//   fields_Validator_input = true
+//   decorate_1_type        = "CreateOne*Args"
+//   decorate_1_field       = data
+//   decorate_1_name        = ValidateNested
+//   decorate_1_from        = "class-validator"
+//   decorate_1_arguments   = "[]"
+//   decorate_2_type        = "CreateOne*Args"
+//   decorate_2_field       = data
+//   decorate_2_from        = "class-transformer"
+//   decorate_2_arguments   = "['() => {propertyType.0}']"
+//   decorate_2_name        = Type
+// }
+
 model User {
   id                   Int          @id @default(autoincrement())
   userId               String       @unique @default(uuid())
-  userName             String?      @unique
+  userName             String       @unique @db.VarChar(50)
   avatarUrl            String?
-  email                String?      @unique
-  accountActivated     Boolean      @default(false)
+  email                String       @unique
+  accountActivated     Boolean?     @default(false)
+  role                 String       @unique
+  password             String       @unique
   accessRole           AccessRoles  @relation(fields: [role], references: [roleType])
-  role                 String
   movies               Movie[]
   subscriptions        UserSubscriptionPlans[]
 
@@ -37,7 +56,7 @@ model AccessRoles {
 model Movie {
   id                   Int          @id @default(autoincrement())
   movieId              String       @unique @default(uuid())
-  title                String?
+  title                String?      @db.VarChar(200)
   releaseDate          DateTime?
   duration             DateTime?
   synopsis             String?
@@ -56,9 +75,9 @@ model Movie {
 model Actor {
   id                   Int          @unique @id @default(autoincrement())
   actorId              String       @unique @default(uuid())
-  firstName            String
-  lastName             String
-  dateOfBirth          DateTime
+  firstName            String       @unique @db.VarChar(20)
+  lastName             String       @unique @db.VarChar(20)
+  dateOfBirth          DateTime     @unique
   movies               MovieActors[]
 
   createdAt            DateTime     @default(now()) @db.Timestamptz(6)
