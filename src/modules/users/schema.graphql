@@ -27,11 +27,16 @@ input UpdateUser {
   email: String!
   accountActivated: Boolean
   role: String!
+}
+
+input LoginBody {
+  userName: String!
+  email: String!
   password: String!
 }
 
 type Query {
-  users: [User!]!
+  users: [User!]
   user(id: Int!): User
 }
 

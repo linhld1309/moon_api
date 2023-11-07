@@ -26,6 +26,11 @@ export class UpdateUser {
     email: string;
     accountActivated?: Nullable<boolean>;
     role: string;
+}
+
+export class LoginBody {
+    userName: string;
+    email: string;
     password: string;
 }
 
@@ -41,7 +46,7 @@ export class User {
 }
 
 export abstract class IQuery {
-    abstract users(): User[] | Promise<User[]>;
+    abstract users(): Nullable<User[]> | Promise<Nullable<User[]>>;
 
     abstract user(id: number): Nullable<User> | Promise<Nullable<User>>;
 }
