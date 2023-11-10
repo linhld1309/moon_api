@@ -1,0 +1,11 @@
+scalar GraphQLTimestamp
+
+type AccessRole {
+  id: Int!
+  roleType: String
+  level: Int
+  description: String
+  users: [User!]
+  createdAt: GraphQLTimestamp
+  updatedAt: GraphQLTimestamp
+}

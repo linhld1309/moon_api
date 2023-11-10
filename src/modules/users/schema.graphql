@@ -1,3 +1,5 @@
+scalar GraphQLTimestamp
+
 type User {
   id: Int!
   userId: String!
@@ -7,6 +9,10 @@ type User {
   accountActivated: Boolean
   role: String!
   password: String!
+  movies: [Movie!]
+  subscriptions: [MSubscription!]
+  createdAt: GraphQLTimestamp
+  updatedAt: GraphQLTimestamp
 }
 
 input NewUser {

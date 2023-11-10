@@ -1,12 +1,16 @@
 import { UseGuards } from "@nestjs/common";
-import { Resolver, Query, Mutation, Args, Subscription } from '@nestjs/graphql';
-import { User } from 'src/graphql.schema';
-import { UsersService } from './users.service';
-import { PubSub } from 'graphql-subscriptions';
-import { NewUser, UpdateUser } from 'src/graphql.schema';
-import * as bcrypt from 'bcrypt';
+import { Resolver, Query, Mutation, Args, Subscription, Parent, ResolveField } from '@nestjs/graphql';
 import { ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
+import { Inject } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { PubSub } from 'graphql-subscriptions';
+import { User, NewUser, UpdateUser, Movie, MSubscription, MovieParams, SubParams } from 'src/graphql.schema';
+import { UsersService } from './users.service';
 import { GqlAuthGuard } from 'src/guards';
+import { SubscriptionsService } from "../subscriptions/subscriptions.service";
+import { MoviesService } from "../movies/movies.service";
+import { AppException } from "src/core/exceptions";
+import { ErrorCode } from "src/enums";
 
 const pubSub = new PubSub();
 
@@ -15,7 +19,12 @@ const pubSub = new PubSub();
 @ApiTags("Users")
 @ApiBearerAuth()
 export class UsersResolvers {
-  constructor(private readonly userService: UsersService) {}
+  postsService: any;
+  constructor(
+    @Inject(UsersService) private readonly userService: UsersService,
+    @Inject(MoviesService) private readonly moviesService: MoviesService,
+    @Inject(SubscriptionsService) private readonly subsService: SubscriptionsService
+  ) {}
 
   @Query(() => [User])
   @ApiOperation({ summary: "Get all list users" })
@@ -26,7 +35,7 @@ export class UsersResolvers {
 
   @Query('user')
   @ApiOperation({ summary: "Get user find by id" })
-  async post(@Args('id') args: User[`id`]): Promise<User | null> {
+  async user(@Args('id') args: User[`id`]): Promise<User | null> {
     return this.userService.findOne(args);
   }
 
@@ -49,6 +58,28 @@ export class UsersResolvers {
   @ApiOperation({ summary: "Delete User" })
   async delete(@Args('id') args: User[`id`]): Promise<User> {
     return this.userService.delete(args);
+  }
+
+  @ResolveField(returns => [Movie])
+  async movies(@Parent() user: User, @Args('input') args: MovieParams): Promise<Movie[]> {
+    if (!user) throw new AppException(ErrorCode.E110001);
+
+    const { userId } = user;
+    return this.moviesService.findByQuery({
+      // TODO fix problem
+      ...args,
+      documentedBy: userId
+    });
+  }
+
+  @ResolveField(returns => [MSubscription])
+  async subscriptions(@Parent() user: User, @Args('input') args: SubParams): Promise<MSubscription[]> {
+    const { userId } = user;
+    return this.subsService.findByQuery({ 
+      // TODO fix problem
+      ...args,
+      userId: userId
+    });
   }
 
   @Subscription('userCreated')

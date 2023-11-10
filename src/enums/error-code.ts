@@ -13,11 +13,13 @@ export enum ErrorCode {
   E101003 = 101003,
   E101004 = 101004,
   E101005 = 101005,
-  // Inspection items
+
+  //User
   E110000 = 110000,
-  E110001 = 110001, // Inspection item name da ton tai.
-  E110002 = 110002, // Cannot upgrade input_type
-  E110003 = 110003, // Items must have unique values
+  E110001 = 110001, // User not Found
+
+
+
   // Inspection type
   E111000 = 111000, //Inspection type does not exist
   E111001 = 111001, // Inspection type with company_code and inspection_code is exist

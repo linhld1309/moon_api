@@ -1,0 +1,29 @@
+scalar GraphQLTimestamp
+
+type Movie {
+  id: Int!
+  movieId: String!
+  title: String
+  releaseDate: GraphQLTimestamp
+  duration: GraphQLTimestamp
+  synopsis: String
+  posterUrl: String
+  trailerUrl: String!
+  documentedBy: String!
+  # actors: [MovieActors!]
+  # genres: [MovieGenres!]
+  createdAt: GraphQLTimestamp
+  updatedAt: GraphQLTimestamp
+}
+
+input MovieParams {
+  id: Int!
+  movieId: String!
+  title: String
+  releaseDate: GraphQLTimestamp
+  duration: GraphQLTimestamp
+  synopsis: String
+  posterUrl: String
+  trailerUrl: String!
+  documentedBy: String!
+}

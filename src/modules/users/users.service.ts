@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
-import { NewUser, UpdateUser } from 'src/graphql.schema';
+import { User, NewUser, UpdateUser } from 'src/graphql.schema';
 import { PrismaService } from '../../database/prisma.service';
 
 @Injectable()
@@ -12,6 +11,7 @@ export class UsersService {
       where: {
         id,
       },
+      // include: { movies: true }
     });
     return user
   }

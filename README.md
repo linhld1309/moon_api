@@ -37,3 +37,8 @@ $ yarn graphql
 
 $ npx prisma db pull
 $ npx prisma db push
+
+<!-- 
+generate JWT_SECRET
+$ node -e "console.log(require('crypto').randomBytes(20).toString('base64'));"
+ -->

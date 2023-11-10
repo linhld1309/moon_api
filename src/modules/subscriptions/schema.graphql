@@ -1,0 +1,24 @@
+scalar GraphQLTimestamp
+
+type MSubscription {
+  id: Int!
+  subscriptionId: String!
+  type: String
+  description: String
+  amount: Int
+  timeDurationAmount: Int
+  timeDurationUnit: String
+  createdAt: GraphQLTimestamp
+  updatedAt: GraphQLTimestamp
+}
+
+
+input SubParams {
+  id: Int!
+  subscriptionId: String!
+  type: String
+  description: String
+  amount: Int
+  timeDurationAmount: Int
+  timeDurationUnit: String
+}

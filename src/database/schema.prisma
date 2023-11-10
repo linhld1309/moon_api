@@ -34,15 +34,15 @@ model User {
   accountActivated     Boolean?     @default(false)
   role                 String       @unique
   password             String       @unique
-  accessRole           AccessRoles  @relation(fields: [role], references: [roleType])
+  accessRole           AccessRole  @relation(fields: [role], references: [roleType])
   movies               Movie[]
-  subscriptions        UserSubscriptionPlans[]
+  subscriptions        UserSubscriptionPlan[]
 
   createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
-model AccessRoles {
+model AccessRole {
   id                   String       @id @default(uuid())
   roleType             String?      @unique @default("User")
   level                Int?         @unique
@@ -64,8 +64,8 @@ model Movie {
   trailerUrl           String
   documentedBy         String       @default(uuid())
   user                 User         @relation(fields: [documentedBy], references: [userId])
-  actors               MovieActors[]
-  genres               MovieGenres[]
+  actors               MovieActor[]
+  genres               MovieGenre[]
 
   createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
@@ -78,13 +78,13 @@ model Actor {
   firstName            String       @unique @db.VarChar(20)
   lastName             String       @unique @db.VarChar(20)
   dateOfBirth          DateTime     @unique
-  movies               MovieActors[]
+  movies               MovieActor[]
 
   createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
-model MovieActors {
+model MovieActor {
   movie                Movie        @relation(fields: [movieId], references: [movieId])
   movieId              String
   actor                Actor        @relation(fields: [actorId], references: [actorId])
@@ -98,13 +98,13 @@ model MovieActors {
 model Genre {
   id                   String       @unique @id @default(uuid())
   genreName            String       @unique
-  movies               MovieGenres[]
+  movies               MovieGenre[]
 
   createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
-model MovieGenres {
+model MovieGenre {
   movie                Movie        @relation(fields: [movieId], references: [movieId])
   movieId              String
   genre                Genre        @relation(fields: [genreName], references: [genreName])
@@ -115,7 +115,7 @@ model MovieGenres {
   updatedAt            DateTime     @updatedAt
 }
 
-model Subscriptions {
+model Subscription {
   id                   Int          @unique @default(autoincrement())
   subscriptionId       String       @unique @id @default(uuid())
   type                 String?
@@ -123,16 +123,16 @@ model Subscriptions {
   amount               Int?
   timeDurationAmount   Int?
   timeDurationUnit     String?
-  users                UserSubscriptionPlans[]
+  users                UserSubscriptionPlan[]
 
   createdAt            DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime     @updatedAt
 }
 
-model UserSubscriptionPlans {
+model UserSubscriptionPlan {
   user                 User           @relation(fields: [userId], references: [userId])
   userId               String
-  genre                Subscriptions  @relation(fields: [subscriptionId], references: [subscriptionId])
+  genre                Subscription  @relation(fields: [subscriptionId], references: [subscriptionId])
   subscriptionId       String
   startDate            DateTime?      @default(now()) @db.Timestamptz(6)
   endDate              DateTime?
